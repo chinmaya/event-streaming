@@ -1,5 +1,6 @@
 package me.chinmaya.examples.kafka.count;
 
+import java.time.Duration;
 import java.util.Arrays;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -13,7 +14,7 @@ public class ConsumeWords {
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(Config.consumerProperties())) {
 			consumer.subscribe(Arrays.asList(Config.TOPIC_WORDS));
 			while (true) {
-				ConsumerRecords<String, String> records = consumer.poll(1000);
+				ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
 				for (ConsumerRecord<String, String> record : records) {
 					System.out.println("From partition " + record.partition() + ", At " + record.offset() + ", " + record.key() + "->" + record.value());
 				}
